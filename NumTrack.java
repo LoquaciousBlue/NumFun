@@ -18,7 +18,7 @@ public class NumTrack {
   }
 
   public NumTrack() {
-    this(0,0,0,0,0);
+    this(0,0,0,0,0,);
     setStart();  //sets up basic stuff on game start
   }
 
@@ -48,24 +48,9 @@ public class NumTrack {
                   System.out.println("Exception Occurred:");
                     e.printStackTrace();
               }
-        } else {
-          String text = "";
-          int lineNumber;
-              try {
-                  FileReader readfile = new FileReader(filename);
-                  BufferedReader readbuffer = new BufferedReader(readfile);
-                  for (lineNumber = 1; lineNumber < 20; lineNumber++) {
-                      text = readbuffer.readLine();
-                  }
-              } catch (IOException e) {
-                  e.printStackTrace();
-              }
-            }
+        }
+
   }
-
-
-
-
 
   public long getInterval() {
     this.taketime = System.currentTimeMillis();
@@ -86,6 +71,9 @@ public class NumTrack {
     time = time/1000;
     int digit1and2 = (int)time/60;
     int digit3and4 = (int)time%60;
+    if (digit3and4 <= 9) {
+      return digit1and2+":0"+digit3and4;
+    }
     return digit1and2+":"+digit3and4;
    }
 
@@ -109,15 +97,45 @@ public class NumTrack {
      incStreak();
      int newval = (int)(getInterval())/1000;
      newval = newval*newval+1;
-     newval = 1000+5000/newval;
-     double newval2 = (1+.25*(getStreaks()));
+     newval = 100+500/newval;
+     double newval2 = (1+.075*(getStreaks()));
      newval2 = newval2*newval;
      newval = (int) newval2;
      this.score += newval;
+
    }
 
    public int getScore() {
      return score;
    }
+
+
+
+   public void checkAndsetBoard() {
+     String text = "";
+     String player[] = new String[10];
+     int playerScore[] = new int[10];
+     int lineNumber;
+         try {
+             FileReader readfile = new FileReader(filename);
+             BufferedReader readbuffer = new BufferedReader(readfile);
+             for (lineNumber = 1; lineNumber < 10; lineNumber++) {
+                 player[lineNumber] = readbuffer.readLine();
+             }
+             for (lineNumber = 11; lineNumber < 20; lineNumber++) {
+                  text = readbuffer.readLine();
+                  playerScore[lineNumber-10] = Integer.parseInt(text);
+             }
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+
+   }
+
+
+
+
+
+
 
 }
