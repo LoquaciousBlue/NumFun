@@ -1,5 +1,5 @@
 import java.io.*;
-
+import java.util.*;
 
 public class NumTrack {
   private long starttime;
@@ -18,7 +18,7 @@ public class NumTrack {
   }
 
   public NumTrack() {
-    this(0,0,0,0,0,);
+    this(0,0,0,0,0);
     setStart();  //sets up basic stuff on game start
   }
 
@@ -48,7 +48,38 @@ public class NumTrack {
                   System.out.println("Exception Occurred:");
                     e.printStackTrace();
               }
+
+
+              Writer writer = null;
+
+              int lineNumber;
+              try {
+                writer =new BufferedWriter(new OutputStreamWriter(new FileOutputStream("leaderboard.txt"), "utf-8"));
+
+
+                for (lineNumber = 1; lineNumber < 11; lineNumber++) {
+                  writer.write("");
+                  writer.write("\n");
+                }
+                for (lineNumber = 1; lineNumber < 11; lineNumber++) {
+                  writer.write("0");
+                  writer.write("\n");
+                }
+
+                writer.flush();
+
+              } catch (IOException ex) {
+
+              } finally {
+                try {writer.close();} catch (Exception ex) {
+
+                }
+              }
+
+
+
         }
+
 
   }
 
@@ -111,24 +142,97 @@ public class NumTrack {
 
 
 
-   public void checkAndsetBoard() {
+   public void checkAndsetBoard(String Pname, int score) {
+     String scoreS = score+"";
      String text = "";
-     String player[] = new String[10];
-     int playerScore[] = new int[10];
+     String player[] = new String[12];
+     String playerScore[] = new String[12];
      int lineNumber;
          try {
-             FileReader readfile = new FileReader(filename);
+             FileReader readfile = new FileReader("leaderboard.txt");
              BufferedReader readbuffer = new BufferedReader(readfile);
-             for (lineNumber = 1; lineNumber < 10; lineNumber++) {
-                 player[lineNumber] = readbuffer.readLine();
-             }
-             for (lineNumber = 11; lineNumber < 20; lineNumber++) {
+             for (lineNumber = 1; lineNumber <= 10; lineNumber++) {
                   text = readbuffer.readLine();
-                  playerScore[lineNumber-10] = Integer.parseInt(text);
+
+                 player[lineNumber] = text;
+             }
+             for (lineNumber = 11; lineNumber <= 20; lineNumber++) {
+                  text = readbuffer.readLine();
+            
+                  playerScore[lineNumber-10] = text;
              }
          } catch (IOException e) {
              e.printStackTrace();
          }
+
+//Integer.parseInt(text)
+
+
+         player[11] = Pname;
+         playerScore[11] = scoreS;
+
+
+      int i;
+         boolean sorted = false;
+         int temp;
+         String tempS;
+         while (!sorted) {
+           sorted = true;
+           for(i = 1; i < 11; i++) {
+             if(Integer.parseInt(playerScore[i]) > Integer.parseInt(playerScore[i+1])) {
+               temp = Integer.parseInt(playerScore[i]);
+               tempS = player[i];
+               playerScore[i] = playerScore[i+1];
+               player[i] = player[i+1];
+               playerScore[i+1] = temp+"";
+               player[i+1] = tempS;
+               sorted = false;
+             }
+           }
+         }
+
+
+
+             for (i = 1; i < 12; i++) {
+               System.out.println(player[i]);
+             }
+             for (i = 1; i < 12; i++) {
+               System.out.println(playerScore[i]);
+             }
+
+
+
+
+
+      Writer writer = null;
+
+      try {
+        writer =new BufferedWriter(new OutputStreamWriter(new FileOutputStream("leaderboard.txt"), "utf-8"));
+
+
+        for (lineNumber = 2; lineNumber < 12; lineNumber++) {
+          writer.write(player[lineNumber]);
+          writer.write("\n");
+        }
+        for (lineNumber = 2; lineNumber < 12; lineNumber++) {
+          writer.write(playerScore[lineNumber]);
+          writer.write("\n");
+
+        }
+
+        writer.flush();
+
+      } catch (IOException ex) {
+
+      } finally {
+        try {writer.close();} catch (Exception ex) {
+
+        }
+      }
+
+
+
+
 
    }
 
