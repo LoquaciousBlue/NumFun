@@ -158,14 +158,12 @@ public class NumTrack {
              }
              for (lineNumber = 11; lineNumber <= 20; lineNumber++) {
                   text = readbuffer.readLine();
-            
+
                   playerScore[lineNumber-10] = text;
              }
          } catch (IOException e) {
              e.printStackTrace();
          }
-
-//Integer.parseInt(text)
 
 
          player[11] = Pname;
@@ -192,6 +190,7 @@ public class NumTrack {
          }
 
 
+/**
 
              for (i = 1; i < 12; i++) {
                System.out.println(player[i]);
@@ -200,9 +199,7 @@ public class NumTrack {
                System.out.println(playerScore[i]);
              }
 
-
-
-
+*/
 
       Writer writer = null;
 
@@ -231,14 +228,60 @@ public class NumTrack {
       }
 
 
+   }
 
+   public void OhSnap() {
+     Writer writer = null;
+
+     int lineNumber;
+     try {
+       writer =new BufferedWriter(new OutputStreamWriter(new FileOutputStream("leaderboard.txt"), "utf-8"));
+
+
+       for (lineNumber = 1; lineNumber < 11; lineNumber++) {
+         writer.write("");
+         writer.write("\n");
+       }
+       for (lineNumber = 1; lineNumber < 11; lineNumber++) {
+         writer.write("0");
+         writer.write("\n");
+       }
+
+       writer.flush();
+
+     } catch (IOException ex) {
+
+     } finally {
+       try {writer.close();} catch (Exception ex) {
+
+       }
+     }
+   }
+
+   public String[] getLeaderboardQ20() {
+     String text = "";
+     String returnArr[] = new String[21];
+     int lineNumber;
+         try {
+             FileReader readfile = new FileReader("leaderboard.txt");
+             BufferedReader readbuffer = new BufferedReader(readfile);
+             for (lineNumber = 20; lineNumber >= 1; lineNumber--) {
+                text = readbuffer.readLine();
+                 returnArr[lineNumber] = text;
+             }
+
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+
+         for (int i = 1; i < 20; i++) {
+           System.out.println(returnArr[i]);
+         }
+
+         return returnArr;
 
 
    }
-
-
-
-
 
 
 
