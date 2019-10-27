@@ -65,6 +65,10 @@ public class NumTrack {
                   writer.write("0");
                   writer.write("\n");
                 }
+                for (lineNumber = 1; lineNumber < 11; lineNumber++) {
+                  writer.write("0");
+                  writer.write("\n");
+                }
 
                 writer.flush();
 
@@ -109,7 +113,11 @@ public class NumTrack {
    }
 
    public void resetStreak() {
-     this.streaks = 0;
+     if (streaks >= 6) {
+       this.streaks = 3;
+     } else {
+       this.streaks = 0;
+     }
    }
 
    public void incStreak() {
@@ -142,7 +150,7 @@ public class NumTrack {
 
 
 
-   public void checkAndsetBoard(String Pname, int score) {
+   public void set20q(String Pname, int score) {
      String scoreS = score+"";
      String text = "";
      String player[] = new String[12];
@@ -247,7 +255,7 @@ public class NumTrack {
      }
    }
 
-   public String[] getLeaderboardQ20() {
+   public String[] getleader20qscores() {
      String text = "";
      String returnArr[] = new String[21];
      int lineNumber;
